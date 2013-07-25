@@ -8,15 +8,18 @@ REM	----------------------------------------------------------
 
 REM	Sets the AjaxMin.exe path.
 
-set service_installer_path=%ProgramFiles(x86)%\Microsoft\Microsoft Ajax Minifier 4\
-if not exist %service_installer_path% (goto :minifier_not_found)
+set service_installer_path=
+if not exist "%ProgramFiles(x86)%\Microsoft\Microsoft Ajax Minifier 4\" (goto :minifier_not_found)
 
-set service_installer_path=%service_installer_path%AjaxMin.exe
+set service_installer_path="%ProgramFiles(x86)%\Microsoft\Microsoft Ajax Minifier 4\AjaxMin.exe"
 
-"%service_installer_path%" -clobber:true jquery.Placeholders.monkey.patch.js -o jquery.Placeholders.monkey.patch.min.js
-"%service_installer_path%" -clobber:true jquery.Placeholders.monkey.patch.css -o jquery.Placeholders.monkey.patch.min.css
+%service_installer_path% -clobber:true jquery.Placeholders.monkey.patch.js -o jquery.Placeholders.monkey.patch.min.js
+%service_installer_path% -clobber:true jquery.Placeholders.monkey.patch.css -o jquery.Placeholders.monkey.patch.min.css
 
 xcopy *.min.* ..\ /y
+
+xcopy *.min.js ..\example\js\ /y
+xcopy *.min.css ..\example\css\ /y
 
 goto :end
 
