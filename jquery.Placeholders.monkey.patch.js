@@ -1,83 +1,101 @@
 ﻿//  Adds placeholder class, value and supplementary attribute to the input element.
-var addPlaceholderAttributes = function (element, value) {
-	if (!$(element).hasClass("placeholdersjs")) {
-		$(element).addClass("placeholdersjs");
+var addPlaceholderAttributes = function (input, value) {
+	if (!$(input).hasClass("placeholdersjs")) {
+		$(input).addClass("placeholdersjs");
 	}
-	var attr = $(element).attr("data-placeholder-active");
+	var attr = $(input).attr("data-placeholder-active");
 	if (attr == undefined || attr == "") {
-		$(element).attr("data-placeholder-active", "true");
+		$(input).attr("data-placeholder-active", "true");
 	}
-	$(element).val(value);
+	$(input).val(value);
 };
 
 //  Removes placeholder class, and supplementary attribute from the input element.
-var removePlaceholderAttributes = function (element) {
-	if ($(element).hasClass("placeholdersjs")) {
-		$(element).removeClass("placeholdersjs");
+var removePlaceholderAttributes = function (input) {
+	if ($(input).hasClass("placeholdersjs")) {
+		$(input).removeClass("placeholdersjs");
 	}
-	var attr = $(element).attr("data-placeholder-active");
+	var attr = $(input).attr("data-placeholder-active");
 	if (attr != undefined) {
-		$(element).removeAttr("data-placeholder-active");
+		$(input).removeAttr("data-placeholder-active");
 	}
 };
 
-//  Applies placeholder class and value, when the select box changes its focus.
-var applyPlaceholderAttributes = function (element) {
-	var placeholderValue = $(element).attr("data-placeholder-value");
-	var val = $(element).val();
+//  Applies placeholder class and value.
+var applyPlaceholderAttributes = function (input) {
+	var placeholderValue = $(input).attr("data-placeholder-value");
+	var val = $(input).val();
 
 	if (val == undefined || val == "" || val == placeholderValue) {
 		//  Adds placeholder class, value and supplementary attribute,
 		//  if the current input field is empty
 		//  or current input field has the same value as the supplementary value.
-		addPlaceholderAttributes(element, placeholderValue);
+		addPlaceholderAttributes(input, placeholderValue);
 	} else {
 		//  Removes placeholder class and supplementary attribute,
 		//  if the current input field is not empty.
-		removePlaceholderAttributes(element);
+		removePlaceholderAttributes(input);
 	}
 };
 
 //  Removes placeholder value from the input element.
-var removePlaceholderValue = function (element) {
-	var placeholderValue = $(element).attr("data-placeholder-value");
-	var val = $(element).val();
+var removePlaceholderValue = function (input) {
+	var placeholderValue = $(input).attr("data-placeholder-value");
+	var val = $(input).val();
 
-	//  Removes the value from the input,
+	//  Removes the value from the input element,
 	//  if it is empty or the same as the supplementary value.
 	if (val == undefined || val == "" || val == placeholderValue) {
-		$(element).val("");
+		$(input).val("");
 	}
 };
 
 $(document).ready(function () {
-	//  Removes placeholder class and value, when any element is focused.
-	$("input:text, textarea").focus(function () {
-		removePlaceholderValue($(this));
-		removePlaceholderAttributes($(this));
-	});
+	//  Initialises the Placeholders.For JSON object.
+	//  If the Placeholders.For object is undefined, it will be initialised with
+	//  all text input elements and textarea elements, and all forms.
+	if (Placeholders.For == undefined) {
+		Placeholders.For = { "inputs": ["input:text", "textarea"], "forms": ["form"] };
+	}
+	if (Placeholders.For.inputs == undefined || Placeholders.For.inputs.length == 0) {
+		Placeholders.For.inputs = ["input:text", "textarea"];
+	}
+	if (Placeholders.For.forms == undefined || Placeholders.For.forms.length == 0) {
+		Placeholders.For.forms = ["form"];
+	}
 
-	//  Adds placeholder class and value, when any element loses its focus.
-	$("input:text, textarea").blur(function () {
-		var placeholderValue = $(this).attr("data-placeholder-value");
-		var val = $(this).val();
-
-		if (val == undefined || val == "" || val == placeholderValue) {
-			//  Adds placeholder class, value and supplementary attribute,
-			//  if the current input field is empty
-			//  or current input field has the same value as the supplementary value.
-			addPlaceholderAttributes($(this), placeholderValue);
-		} else {
-			//  Removes placeholder class and supplementary attribute,
-			//  if the current input field is not empty.
-			removePlaceholderAttributes($(this));
-		}
-	});
-
-	//  Removes the placeholder value from inputs, if necessary.
-	$("form").submit(function () {
-		$("input:text, textarea").each(function () {
+	$.each(Placeholders.For.inputs, function (i, input) {
+		//  Removes placeholder class and value, when any input element is focused.
+		$(input).focus(function () {
 			removePlaceholderValue($(this));
+			removePlaceholderAttributes($(this));
+		});
+
+		//  Adds placeholder class and value, when any input element loses its focus.
+		$(input).blur(function () {
+			var placeholderValue = $(this).attr("data-placeholder-value");
+			var val = $(this).val();
+
+			if (val == undefined || val == "" || val == placeholderValue) {
+				//  Adds placeholder class, value and supplementary attribute,
+				//  if the current input element is empty
+				//  or current input element has the same value as the supplementary value.
+				addPlaceholderAttributes($(this), placeholderValue);
+			} else {
+				//  Removes placeholder class and supplementary attribute,
+				//  if the current input element is not empty.
+				removePlaceholderAttributes($(this));
+			}
+		});
+	});
+
+	$.each(Placeholders.For.forms, function (i, form) {
+		//  Removes the placeholder value from input elements,
+		//  to avoid saving the value unexpectedly.
+		$(form).submit(function () {
+			$.each(Placeholders.For.inputs, function (j, input) {
+				removePlaceholderValue(input);
+			});
 		});
 	});
 });
