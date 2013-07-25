@@ -55,14 +55,46 @@ $(document).ready(function () {
 	//  If the Placeholders.For object is undefined, it will be initialised with
 	//  all text input elements and textarea elements, and all forms.
 	if (Placeholders.For == undefined) {
-		Placeholders.For = { "inputs": ["input:text", "textarea"], "forms": ["form"] };
+		Placeholders.For = {
+			"inputs": ["input:text", "textarea"],
+			"fakePasswords": ["#fake-password"],
+			"forms": ["form"]
+		};
 	}
 	if (Placeholders.For.inputs == undefined || Placeholders.For.inputs.length == 0) {
 		Placeholders.For.inputs = ["input:text", "textarea"];
 	}
+	if (Placeholders.For.fakePasswords == undefined || Placeholders.For.fakePasswords.length == 0) {
+		Placeholders.For.fakePasswords = ["#fake-password"];
+	}
 	if (Placeholders.For.forms == undefined || Placeholders.For.forms.length == 0) {
 		Placeholders.For.forms = ["form"];
 	}
+
+	//  Fixes input elements for password.
+	$("input:password").hide();
+	$.each(Placeholders.For.fakePasswords, function (i, input) {
+		$(input).show();
+
+		//  Assumes the fake password text input contains the polyfill attribute of
+		//  "data-placeholder-password" that points to the actual password input element.
+		//  If the value is undefined or empty, it won't work.
+		var password = $(input).attr("data-placeholder-password");
+		if (password == undefined || password == "") {
+			return;
+		}
+		$(input).focus(function () {
+			$(this).hide();
+			$("#" + password).show().val("").focus();
+		});
+		$("#" + password).blur(function () {
+			var value = $(this).val();
+			if (value == undefined || value == "" || value == $(this).attr("placeholder")) {
+				$(input).show();
+				$(this).hide();
+			}
+		});
+	});
 
 	$.each(Placeholders.For.inputs, function (i, input) {
 		//  Removes placeholder class and value, when any input element is focused.
