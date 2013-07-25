@@ -1,8 +1,7 @@
-﻿<!-- This is templated from HTML5 Boilerplate http://html5boilerplate.com and Twitter Bootstrap http://twitter.github.io/bootstrap -->
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>	  <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>		 <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>		 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
@@ -11,13 +10,19 @@
 	<meta name="description" content="" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
+	<!-- This is templated from HTML5 Boilerplate http://html5boilerplate.com and Twitter Bootstrap http://twitter.github.io/bootstrap -->
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
 	<!--[if lte IE 9]>
 		<script type="text/javascript" src="js/Placeholders.min.js"></script>
 	<![endif]-->
-
+	
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.min.css" />
 	<link type="text/css" rel="stylesheet" href="css/normalize.css" />
+	<style>
+		body { padding-top: 60px; padding-bottom: 40px; }
+	</style>
 	<link type="text/css" rel="stylesheet" href="css/main.css" />
 	<!--[if lte IE 9]>
 		<link type="text/css" rel="stylesheet" href="css/jquery.Placeholders.monkey.patch.min.css" />
@@ -35,22 +40,110 @@
 		<![endif]-->
 	
 		<div class="row-fluid">
-			<form method="post">
-				<fieldset>
-					<legend>Select Box</legend>
+			<div class="span4">
+				<div class="row-fluid">
+					<div class="span12">
+						<fieldset>
+							<legend>Select Box</legend>
+					
+							<select id="select-box" class="span12" size="5">
+								<option value="1">Value 1</option>
+								<option value="2">Value 2</option>
+								<option value="3">Value 3</option>
+							</select>
+						</fieldset>
+					</div>
+				</div>
+				
+				<div class="row-fluid">
+					<div class="span12">
+						<table id="table" class="table">
+							<thead>
+								<tr>
+									<th>Value</th>
+									<th>Username</th>
+									<th>Password</th>
+									<th>City</th>
+									<th>Postcode</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="value-1">
+									<td>Value 1</td>
+									<td>jack</td>
+									<td>jill</td>
+									<td>Melbourne</td>
+									<td>3000</td>
+								</tr>
+								<tr id="value-2">
+									<td>Value 2</td>
+									<td>scott</td>
+									<td>tiger</td>
+									<td></td>
+									<td>2000</td>
+								</tr>
+								<tr id="value-3">
+									<td>Value 3</td>
+									<td>northwind</td>
+									<td>adventureworks</td>
+									<td>Perth</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="span4">
+				<fieldset id="patched">
+					<legend>Fields Patched</legend>
 					
 					<div class="controls controls-row">
-						<div class="span3">
-							
+						<input type="text" id="patched-username" class="span12" name="patched-username" placeholder="Username" required="required" />
+					</div>
+
+					<!--[if lte IE 8]>
+						<div class="controls controls-row">
+							<input type="text" id="fake-password" class="span12" name="fake-password" placeholder="Password" data-placeholder-password="patched-password" required="required" style="display: none;" />
 						</div>
-						<select id="select-box" size="5">
-							<option value="1">Value 1</option>
-							<option value="2">Value 2</option>
-							<option value="3">Value 3</option>
-						</select>
+					<![endif]-->
+					
+					<div class="controls controls-row">
+						<input type="password" id="patched-password" class="span12" name="patched-password" placeholder="Password" required="required" />
+					</div>
+
+					<div class="controls controls-row">
+						<input type="text" id="patched-city" class="span12" name="patched-city" placeholder="City" />
+					</div>
+
+					<div class="controls controls-row">
+						<input type="text" id="patched-postcode" class="span12" name="patched-postcode" placeholder="Postcode" />
 					</div>
 				</fieldset>
-			</form>
+			</div>
+
+			<div class="span4">
+				<fieldset id="unpathced">
+					<legend>Fields Not Patched</legend>
+
+					<div class="controls controls-row">
+						<input type="text" id="unpatched-username" class="span12" name="unpatched-username" placeholder="Username" required="required" />
+					</div>
+
+					<div class="controls controls-row">
+						<input type="password" id="unpatched-password" class="span12" name="unpatched-password" placeholder="Password" required="required" />
+					</div>
+
+					<div class="controls controls-row">
+						<input type="text" id="Text1unpatched-city" class="span12" name="unpatched-city" placeholder="City" />
+					</div>
+
+					<div class="controls controls-row">
+						<input type="text" id="unpatched-postcode" class="span12" name="unpatched-postcode" placeholder="Postcode" />
+					</div>
+				</fieldset>
+			</div>
 		</div>
 	</div>
 
@@ -60,7 +153,7 @@
 		<script type="text/javascript" src="js/jquery.Placeholders.monkey.patch.min.js"></script>
 		<script type="text/javascript">
 			Placeholders.For = {
-				"inputs": ["input:text", "textarea"],
+				"inputs": ["#patched input:text", "#patched textarea"],
 				"fakePasswords": ["#fake-password"],
 				"forms": ["form"]
 			};
