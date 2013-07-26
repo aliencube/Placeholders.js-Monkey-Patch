@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=8, chrome=1" />
 	<title>Placeholders.js Monkey Patch</title>
 	<meta name="description" content="" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,7 +25,7 @@
 	</style>
 	<link type="text/css" rel="stylesheet" href="css/main.css" />
 	<!--[if lte IE 9]>
-		<link type="text/css" rel="stylesheet" href="css/jquery.Placeholders.monkey.patch.min.css" />
+		<link type="text/css" rel="stylesheet" href="css/jquery.Placeholders.monkey.patch.css" />
 	<![endif]-->
 	<script type="text/javascript" src="js/modernizr-2.6.2.min.js"></script>
 </head>
@@ -50,6 +50,7 @@
 								<option value="1">Value 1</option>
 								<option value="2">Value 2</option>
 								<option value="3">Value 3</option>
+								<option value="4">Value 4</option>
 							</select>
 						</fieldset>
 					</div>
@@ -89,6 +90,13 @@
 									<td>Perth</td>
 									<td></td>
 								</tr>
+								<tr id="value-4">
+									<td>Value 4</td>
+									<td>foo</td>
+									<td></td>
+									<td>Brisbane</td>
+									<td></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -96,53 +104,86 @@
 			</div>
 
 			<div class="span4">
-				<fieldset id="patched">
-					<legend>Fields Patched</legend>
+				<div class="row-fluid">
+					<form id="patched-form" method="post">
+						<fieldset id="patched">
+							<legend>Fields Patched</legend>
 					
-					<div class="controls controls-row">
-						<input type="text" id="patched-username" class="span12" name="patched-username" placeholder="Username" required="required" />
-					</div>
+							<div class="controls controls-row">
+								<input type="text" id="patched-username" class="span12" name="patched-username" placeholder="Username" required="required" />
+							</div>
 
-					<!--[if lte IE 8]>
-						<div class="controls controls-row">
-							<input type="text" id="fake-password" class="span12" name="fake-password" placeholder="Password" data-placeholder-password="patched-password" required="required" style="display: none;" />
-						</div>
-					<![endif]-->
+							<!--[if lte IE 8]>
+								<div class="controls controls-row">
+									<input type="text" id="fake-password" class="span12" name="fake-password" placeholder="Password" data-placeholder-password="patched-password" required="required" style="display: none;" />
+								</div>
+							<![endif]-->
 					
-					<div class="controls controls-row">
-						<input type="password" id="patched-password" class="span12" name="patched-password" placeholder="Password" required="required" />
-					</div>
+							<div class="controls controls-row">
+								<input type="password" id="patched-password" class="span12" name="patched-password" placeholder="Password" required="required" />
+							</div>
 
-					<div class="controls controls-row">
-						<input type="text" id="patched-city" class="span12" name="patched-city" placeholder="City" />
-					</div>
+							<div class="controls controls-row">
+								<input type="text" id="patched-city" class="span12" name="patched-city" placeholder="City" />
+							</div>
 
-					<div class="controls controls-row">
-						<input type="text" id="patched-postcode" class="span12" name="patched-postcode" placeholder="Postcode" />
-					</div>
-				</fieldset>
+							<div class="controls controls-row">
+								<input type="text" id="patched-postcode" class="span12" name="patched-postcode" placeholder="Postcode" />
+							</div>
+
+							<div class="controls controls-row">
+								<input type="button" id="patched-submit" class="btn btn-primary span12" name="patched-submit" value="Submit" />
+							</div>
+						</fieldset>
+					</form>
+				</div>
+				
+				<div id="patched-result" class="row-fluid">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>Password</th>
+								<th>City</th>
+								<th>Postcode</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="patched-username-result"></td>
+								<td id="patched-password-result"></td>
+								<td id="patched-city-result"></td>
+								<td id="patched-postcode-result"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 
 			<div class="span4">
-				<fieldset id="unpathced">
-					<legend>Fields Not Patched</legend>
+				<div class="row-fluid">
+					<form id="unpatched-form" method="post">
+						<fieldset id="unpathced">
+							<legend>Fields Not Patched</legend>
 
-					<div class="controls controls-row">
-						<input type="text" id="unpatched-username" class="span12" name="unpatched-username" placeholder="Username" required="required" />
-					</div>
+							<div class="controls controls-row">
+								<input type="text" id="unpatched-username" class="span12" name="unpatched-username" placeholder="Username" required="required" />
+							</div>
 
-					<div class="controls controls-row">
-						<input type="password" id="unpatched-password" class="span12" name="unpatched-password" placeholder="Password" required="required" />
-					</div>
+							<div class="controls controls-row">
+								<input type="password" id="unpatched-password" class="span12" name="unpatched-password" placeholder="Password" required="required" />
+							</div>
 
-					<div class="controls controls-row">
-						<input type="text" id="Text1unpatched-city" class="span12" name="unpatched-city" placeholder="City" />
-					</div>
+							<div class="controls controls-row">
+								<input type="text" id="unpatched-city" class="span12" name="unpatched-city" placeholder="City" />
+							</div>
 
-					<div class="controls controls-row">
-						<input type="text" id="unpatched-postcode" class="span12" name="unpatched-postcode" placeholder="Postcode" />
-					</div>
-				</fieldset>
+							<div class="controls controls-row">
+								<input type="text" id="unpatched-postcode" class="span12" name="unpatched-postcode" placeholder="Postcode" />
+							</div>
+						</fieldset>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -150,12 +191,12 @@
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]>
-		<script type="text/javascript" src="js/jquery.Placeholders.monkey.patch.min.js"></script>
+		<script type="text/javascript" src="js/jquery.Placeholders.monkey.patch.js"></script>
 		<script type="text/javascript">
 			Placeholders.For = {
 				"inputs": ["#patched input:text", "#patched textarea"],
 				"fakePasswords": ["#fake-password"],
-				"forms": ["form"]
+				"forms": ["#patched-form"]
 			};
 		</script>
 	<![endif]-->

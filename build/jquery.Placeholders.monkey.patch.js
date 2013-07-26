@@ -72,10 +72,7 @@ $(document).ready(function () {
 	}
 
 	//  Fixes input elements for password.
-	$("input:password").hide();
-	$.each(Placeholders.For.fakePasswords, function (i, input) {
-		$(input).show();
-
+	$.each(Placeholders.For.fakePasswords, function(i, input) {
 		//  Assumes the fake password text input contains the polyfill attribute of
 		//  "data-placeholder-password" that points to the actual password input element.
 		//  If the value is undefined or empty, it won't work.
@@ -83,11 +80,14 @@ $(document).ready(function () {
 		if (password == undefined || password == "") {
 			return;
 		}
-		$(input).focus(function () {
+		$("#" + password).hide();
+		$(input).show();
+
+		$(input).focus(function() {
 			$(this).hide();
 			$("#" + password).show().val("").focus();
 		});
-		$("#" + password).blur(function () {
+		$("#" + password).blur(function() {
 			var value = $(this).val();
 			if (value == undefined || value == "" || value == $(this).attr("placeholder")) {
 				$(input).show();

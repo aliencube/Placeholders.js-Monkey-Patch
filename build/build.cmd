@@ -18,8 +18,8 @@ set service_installer_path="%ProgramFiles(x86)%\Microsoft\Microsoft Ajax Minifie
 
 xcopy *.min.* ..\ /y
 
-xcopy *.min.js ..\example\js\ /y
-xcopy *.min.css ..\example\css\ /y
+xcopy *.js ..\example\js\ /y
+xcopy *.css ..\example\css\ /y
 
 goto :end
 
