@@ -72,61 +72,71 @@ $(document).ready(function () {
 	}
 
 	//  Fixes input elements for password.
-	$.each(Placeholders.For.fakePasswords, function(i, input) {
-		//  Assumes the fake password text input contains the polyfill attribute of
-		//  "data-placeholder-password" that points to the actual password input element.
-		//  If the value is undefined or empty, it won't work.
-		var password = $(input).attr("data-placeholder-password");
-		if (password == undefined || password == "") {
-			return;
-		}
-		$("#" + password).hide();
-		$(input).show();
+	$.each(Placeholders.For.fakePasswords, function (i, inputs) {
+		$.each($(inputs), function (j, input) {
+			//  Assumes the fake password text input contains the polyfill attribute of
+			//  "data-placeholder-password" that points to the actual password input element.
+			//  If the value is undefined or empty, it won't work.
+			var password = $(input).attr("data-placeholder-password");
+			if (password == undefined || password == "") {
+				return;
+			}
+			$("#" + password).hide();
+			$(input).show();
 
-		$(input).focus(function() {
-			$(this).hide();
-			$("#" + password).show().val("").focus();
-		});
-		$("#" + password).blur(function() {
-			var value = $(this).val();
-			if (value == undefined || value == "" || value == $(this).attr("placeholder")) {
-				$(input).show();
+			$(input).focus(function () {
 				$(this).hide();
-			}
+				$("#" + password).show().val("").focus();
+			});
+			$("#" + password).blur(function () {
+				var value = $(this).val();
+				if (value == undefined || value == "" || value == $(this).attr("placeholder")) {
+					$(input).show();
+					$(this).hide();
+				}
+			});
 		});
 	});
 
-	$.each(Placeholders.For.inputs, function (i, input) {
-		//  Removes placeholder class and value, when any input element is focused.
-		$(input).focus(function () {
-			removePlaceholderValue($(this));
-			removePlaceholderAttributes($(this));
-		});
-
-		//  Adds placeholder class and value, when any input element loses its focus.
-		$(input).blur(function () {
-			var placeholderValue = $(this).attr("data-placeholder-value");
-			var val = $(this).val();
-
-			if (val == undefined || val == "" || val == placeholderValue) {
-				//  Adds placeholder class, value and supplementary attribute,
-				//  if the current input element is empty
-				//  or current input element has the same value as the supplementary value.
-				addPlaceholderAttributes($(this), placeholderValue);
-			} else {
-				//  Removes placeholder class and supplementary attribute,
-				//  if the current input element is not empty.
+	//	Adds or removes the placeholder values when focused in and out.
+	$.each(Placeholders.For.inputs, function (i, inputs) {
+		$.each($(inputs), function (j, input) {
+			//  Removes placeholder class and value, when any input element is focused.
+			$(input).focus(function () {
+				removePlaceholderValue($(this));
 				removePlaceholderAttributes($(this));
-			}
+			});
+
+			//  Adds placeholder class and value, when any input element loses its focus.
+			$(input).blur(function () {
+				var placeholderValue = $(this).attr("data-placeholder-value");
+				var val = $(this).val();
+
+				if (val == undefined || val == "" || val == placeholderValue) {
+					//  Adds placeholder class, value and supplementary attribute,
+					//  if the current input element is empty
+					//  or current input element has the same value as the supplementary value.
+					addPlaceholderAttributes($(this), placeholderValue);
+				} else {
+					//  Removes placeholder class and supplementary attribute,
+					//  if the current input element is not empty.
+					removePlaceholderAttributes($(this));
+				}
+			});
 		});
 	});
 
-	$.each(Placeholders.For.forms, function (i, form) {
-		//  Removes the placeholder value from input elements,
-		//  to avoid saving the value unexpectedly.
-		$(form).submit(function () {
-			$.each(Placeholders.For.inputs, function (j, input) {
-				removePlaceholderValue(input);
+	//	Removes placeholder values from the input value attributes.
+	$.each(Placeholders.For.forms, function (i, forms) {
+		$.each($(forms), function (j, form) {
+			//  Removes the placeholder value from input elements,
+			//  to avoid saving the value unexpectedly.
+			$(form).submit(function () {
+				$.each(Placeholders.For.inputs, function (k, inputs) {
+					$.each($(inputs), function (l, input) {
+						removePlaceholderValue(input);
+					});
+				});
 			});
 		});
 	});
